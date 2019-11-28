@@ -6,7 +6,7 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"ngrok-deploy": "node grab-ngrok.js && npm run deploy",
-		"deploy": "gcloud functions deploy proxy --runtime nodejs8 --trigger-http --memory=128 --timeout=60s"
+		"deploy": "gcloud functions deploy proxy --runtime nodejs8 --trigger-http --memory=128 --timeout=60s && node success-msg.js"
 	},
 	"keywords": [],
 	"author": "Joshua Tzucker",
