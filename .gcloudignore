@@ -1,0 +1,6 @@
+config.example.js
+.gitignore
+yarn.lock
+node_modules
+*.sh
+*.bat

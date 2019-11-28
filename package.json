@@ -1,0 +1,19 @@
+{
+	"name": "gcp-proxy-func",
+	"version": "1.0.0",
+	"description": "Google Cloud Function that proxies requests to a host specified in config.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"ngrok-deploy": "node grab-ngrok.js && npm run deploy",
+		"deploy": "gcloud functions deploy proxy --runtime nodejs8 --trigger-http --memory=128 --timeout=60s"
+	},
+	"keywords": [],
+	"author": "Joshua Tzucker",
+	"license": "MIT",
+	"devDependencies": {},
+	"dependencies": {
+		"express": "^4.17.1",
+		"http-proxy-middleware": "^0.20.0"
+	}
+}
