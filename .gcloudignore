@@ -1,3 +1,6 @@
+.git
+LICENSE
+*.md
 config.example.js
 .gitignore
 yarn.lock
