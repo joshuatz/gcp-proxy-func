@@ -28,20 +28,34 @@ function getProxyConfig() {
 		changeOrigin: true,
 		followRedirects: true,
 		secure: true,
-		onProxyReq: (proxyReq, req, res, options) => {
+		/**
+		 * @param {import('http').ClientRequest} proxyReq
+		 * @param {import('http').IncomingMessage} req
+		 * @param {import('http').ServerResponse} res
+		 */
+		onProxyReq: (proxyReq, req, res) => {
+			/**
+			 * @type {null | undefined | object}
+			 */
+			// @ts-ignore
+			const body = req.body;
 			// Restream parsed body before proxying
 			// https://github.com/http-party/node-http-proxy/blob/master/examples/middleware/bodyDecoder-middleware.js
-			if (!req.body || !Object.keys(req.body).length) {
+			if (!body || !Object.keys(body).length) {
 				return;
 			}
 			const contentType = proxyReq.getHeader('Content-Type');
+			let contentTypeStr = Array.isArray(contentType) ? contentType[0] : contentType.toString();
+			// Grab 'application/x-www-form-urlencoded' out of 'application/x-www-form-urlencoded; charset=utf-8'
+			contentTypeStr = contentTypeStr.match(/^([^;]*)/)[1];
+
 			let bodyData;
-			if (contentType === 'application/json') {
-				bodyData = JSON.stringify(req.body);
+			if (contentTypeStr === 'application/json') {
+				bodyData = JSON.stringify(body);
 			}
 
-			if (contentType === 'application/x-www-form-urlencoded') {
-				bodyData = queryString.stringify(req.body);
+			if (contentTypeStr === 'application/x-www-form-urlencoded') {
+				bodyData = queryString.stringify(body);
 			}
 
 			if (bodyData) {
